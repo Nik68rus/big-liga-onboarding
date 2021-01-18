@@ -4,7 +4,8 @@ const pictureVisabilityHandler = (evt) => {
     return;
   }
   const screen = picture.closest('.screen--active');
-  if (screen) {
+  const breakpoint = window.matchMedia('(max-width: 919px)');
+  if (screen && breakpoint.matches) {
     picture.classList.toggle('intro__picture--tablet-active');
   }
 };
