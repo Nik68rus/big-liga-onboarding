@@ -80,7 +80,7 @@ const syncserver = () => {
   });
 
   gulp.watch('source/html/**/*.html', gulp.series(html, refresh));
-  gulp.watch('source/sass/**/*.{scss,sass}', gulp.series(css));
+  gulp.watch('source/sass/**/*.{scss,sass}', gulp.series(css, refresh));
   gulp.watch('source/js/**/*.{js,json}', gulp.series(js, refresh));
   gulp.watch('source/data/**/*.{js,json}', gulp.series(copy, refresh));
   gulp.watch('source/img/**/*.svg', gulp.series(copysvg, sprite, html, refresh));

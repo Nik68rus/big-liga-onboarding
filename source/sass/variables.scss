@@ -29,7 +29,7 @@ $modal-transition-settings:         0.6s cubic-bezier(0.55, 0, 0.1, 1);
 //---------------------------------
 
 $viewport--sm:                      320px;
-$viewport--md:                      768px;
+$viewport--md:                      920px;
 $viewport--lg:                      1024px;
 $viewport--xl:                      1440px;
 $viewport--xxl:                     1920px;
@@ -39,3 +39,8 @@ $viewport--xxl:                     1920px;
 
 $retina-dpi:                        144dpi;
 $retina-dppx:                       1.5dppx;
+
+
+// Container
+$padding--large: 50px;
+$padding--small: 32px;

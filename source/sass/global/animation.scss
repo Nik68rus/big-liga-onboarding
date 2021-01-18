@@ -1,0 +1,22 @@
+[data-text-anim] {
+  clip-path: polygon(0 0%, 0% 0, 0 100%, 0 100%);
+
+  .screen--active & {
+    animation: clip 2s ease forwards;
+  }
+}
+
+@keyframes clip {
+  0% {
+    clip-path: polygon(0 0%, 0% 0, 0 100%, 0 100%);
+  }
+  100% {
+    clip-path: polygon(0 0%, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+@keyframes pulsate {
+  to {
+    transform: scale(1.05);
+  }
+}

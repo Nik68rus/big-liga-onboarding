@@ -1,0 +1,63 @@
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  padding: 0 30px;
+  background-color: $color-default-white;
+  z-index: 20;
+
+
+  &__container {
+    height: 100%;
+    padding: 50px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  &--hidden {
+    display: none;
+  }
+}
+
+.loader__logo {
+  width: 100%;
+  margin-bottom: 35vh;
+  transition: transform 0.7s ease-in-out;
+
+  #shield {
+    fill: white;
+  }
+}
+
+.loader:not(.loader--active) {
+  .loader__logo {
+    transform: translate3d(-37vw, -40vh, 0) rotate(360deg) scale(0.24);
+
+    @include viewport--sm {
+      transform: translate3d(-33vw, -46vh, 0) rotate(360deg) scale(0.27);
+    }
+  }
+
+  .loader__action {
+    opacity: 0;
+    transition-delay: 0s;
+  }
+}
+
+.loader__action {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out 2s;
+  animation-name: pulsate;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+
+  .loader--loaded & {
+    opacity: 1;
+  }
+}
+
