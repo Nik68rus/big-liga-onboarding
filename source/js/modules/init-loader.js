@@ -1,17 +1,25 @@
-import {KeyCode} from '../const';
+import {KeyCode, Event} from '../const';
+const breakpoint = window.matchMedia('(max-width: 919px)');
 
-const keyPressHandler = (evt) => {
+const loaderRemoveHandler = (evt) => {
   const intro = document.querySelector('.intro');
   const loader = document.querySelector('.loader');
+  if (!intro || !loader) {
+    return;
+  }
   evt.preventDefault();
-  if (evt.key === KeyCode.ENTER && intro && loader) {
+  if ((evt.type === Event.KEYUP && evt.key === KeyCode.ENTER) || evt.type === Event.CLICK) {
     loader.classList.remove('loader--active');
     loader.classList.remove('loader--loaded');
     setTimeout(() => {
       loader.classList.add('loader--hidden');
       intro.classList.add('screen--active');
     }, 700);
-    document.removeEventListener('keyup', keyPressHandler);
+    if (evt.type === Event.KEYUP) {
+      document.removeEventListener('keyup', loaderRemoveHandler);
+    } else {
+      document.removeEventListener('click', loaderRemoveHandler);
+    }
   }
 };
 
@@ -21,7 +29,11 @@ const loadingHandler = () => {
     return;
   }
   loader.classList.add('loader--loaded');
-  document.addEventListener('keyup', keyPressHandler);
+  if (breakpoint.matches) {
+    document.addEventListener('click', loaderRemoveHandler);
+  } else {
+    document.addEventListener('keyup', loaderRemoveHandler);
+  }
 };
 
 const initLoader = () => {

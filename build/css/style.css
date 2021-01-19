@@ -640,6 +640,13 @@ button,
           animation-iteration-count: infinite;
   -webkit-animation-direction: alternate;
           animation-direction: alternate; }
+  .loader__action--tablet {
+    display: none; }
+  @media (max-width: 919px) {
+    .loader__action--desktop {
+      display: none; }
+    .loader__action--tablet {
+      display: block; } }
   .loader--loaded .loader__action {
     opacity: 1; }
 

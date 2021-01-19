@@ -15,7 +15,7 @@ const webpackStream = require('webpack-stream');
 const webpackConfig = require('./webpack.config.js');
 const fileinclude = require('gulp-file-include');
 
-const html = () => {
+gulp.task('html', function () {
   return gulp.src(['source/html/*.html'])
     .pipe(fileinclude({
       prefix: '@@',
@@ -25,9 +25,9 @@ const html = () => {
       }
     }))
     .pipe(gulp.dest('build'));
-};
+});
 
-const css = () => {
+gulp.task('css', function() {
   return gulp.src('source/sass/style.scss')
       .pipe(plumber())
       .pipe(sourcemap.init())
@@ -41,15 +41,15 @@ const css = () => {
       .pipe(sourcemap.write('.'))
       .pipe(gulp.dest('build/css'))
       .pipe(server.stream());
-};
+});
 
-const js = () => {
+gulp.task('js', function() {
   return gulp.src(['source/js/main.js'])
       .pipe(webpackStream(webpackConfig))
       .pipe(gulp.dest('build/js'))
-};
+});
 
-const svgo = () => {
+gulp.task('svgo', function() {
   return gulp.src('source/img/**/*.{svg}')
       .pipe(imagemin([
         imagemin.svgo({
@@ -61,16 +61,16 @@ const svgo = () => {
           }),
       ]))
       .pipe(gulp.dest('source/img'));
-};
+});
 
-const sprite = () => {
+gulp.task('sprite', function() {
   return gulp.src('source/img/sprite/*.svg')
       .pipe(svgstore({inlineSvg: true}))
       .pipe(rename('sprite_auto.svg'))
       .pipe(gulp.dest('build/img'));
-};
+});
 
-const syncserver = () => {
+gulp.task('syncserver', function() {
   server.init({
     server: 'build/',
     notify: false,
@@ -79,30 +79,30 @@ const syncserver = () => {
     ui: false,
   });
 
-  gulp.watch('source/html/**/*.html', gulp.series(html, refresh));
-  gulp.watch('source/sass/**/*.{scss,sass}', gulp.series(css, refresh));
-  gulp.watch('source/js/**/*.{js,json}', gulp.series(js, refresh));
-  gulp.watch('source/data/**/*.{js,json}', gulp.series(copy, refresh));
-  gulp.watch('source/img/**/*.svg', gulp.series(copysvg, sprite, html, refresh));
-  gulp.watch('source/img/**/*.{png,jpg}', gulp.series(copypngjpg, html, refresh));
-};
+  gulp.watch('source/html/**/*.html', gulp.series('html', 'refresh'));
+  gulp.watch('source/sass/**/*.{scss,sass}', gulp.series('css', 'refresh'));
+  gulp.watch('source/js/**/*.{js,json}', gulp.series('js', 'refresh'));
+  gulp.watch('source/data/**/*.{js,json}', gulp.series('copy', 'refresh'));
+  gulp.watch('source/img/**/*.svg', gulp.series('copysvg', 'sprite', 'html', 'refresh'));
+  gulp.watch('source/img/**/*.{png,jpg}', gulp.series('copypngjpg', 'html', 'refresh'));
+});
 
-const refresh = (done) => {
+gulp.task('refresh', function(done) {
   server.reload();
   done();
-};
+});
 
-const copysvg = () => {
+gulp.task('copysvg', function() {
   return gulp.src('source/img/**/*.svg', {base: 'source'})
       .pipe(gulp.dest('build'));
-};
+});
 
-const copypngjpg = () => {
+gulp.task('copypngjpg', function() {
   return gulp.src('source/img/**/*.{png,jpg}', {base: 'source'})
       .pipe(gulp.dest('build'));
-};
+});
 
-const copy = () => {
+gulp.task('copy', function() {
   return gulp.src([
     'source/fonts/**',
     'source/favicon/**',
@@ -116,36 +116,32 @@ const copy = () => {
     base: 'source',
   })
       .pipe(gulp.dest('build'));
-};
+});
 
-const clean = () => {
+gulp.task('clean', function() {
   return del('build');
-};
+});
 
-const build = gulp.series(clean, svgo, copy, css, sprite, js, html);
+gulp.task('build', gulp.series('clean', 'svgo', 'copy', 'css', 'sprite', 'js', 'html'));
 
-const start = gulp.series(build, syncserver);
+gulp.task('start', gulp.series('build', 'syncserver'));
 
 // Optional tasks
 //---------------------------------
 // Вызывайте через 'npm run taskName'
 
-const createWebp = () => {
+gulp.task('createWebp', function() {
   return gulp.src('source/img/**/*.{png,jpg}')
       .pipe(webp({quality: 90}))
       .pipe(gulp.dest('source/img'));
-};
+});
 
-const optimizeImages = () => {
+gulp.task('optimizeImages', function() {
   return gulp.src('build/img/**/*.{png,jpg}')
       .pipe(imagemin([
         imagemin.optipng({optimizationLevel: 3}),
         imagemin.mozjpeg({quality: 75, progressive: true}),
       ]))
       .pipe(gulp.dest('build/img'));
-};
+});
 
-exports.build = build;
-exports.start = start;
-exports.webp = createWebp;
-exports.imagemin = optimizeImages;

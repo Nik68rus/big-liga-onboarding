@@ -56,6 +56,20 @@
   animation-iteration-count: infinite;
   animation-direction: alternate;
 
+  &--tablet {
+    display: none;
+  }
+
+  @include viewport--sm {
+    &--desktop {
+      display: none;
+    }
+
+    &--tablet {
+      display: block;
+    }
+  }
+
   .loader--loaded & {
     opacity: 1;
   }

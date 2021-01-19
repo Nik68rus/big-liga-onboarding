@@ -2,4 +2,9 @@ const KeyCode = {
   ENTER: 'Enter',
 };
 
-export {KeyCode};
+const Event = {
+  KEYUP: 'keyup',
+  CLICK: 'click',
+};
+
+export {KeyCode, Event};
