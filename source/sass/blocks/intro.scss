@@ -45,7 +45,7 @@
       height: calc(100vh - 82px);
       background-color: $color-neon-blue;
       position: absolute;
-      left: 100vw;
+      right: 100vw;
       top: 82px;
       padding: 50px;
       color: $color-default-white;
@@ -61,7 +61,7 @@
 
     .screen--active &.intro__picture--tablet-active {
       @include viewport--sm {
-        transform: translateX(-100vw);
+        transform: translateX(100vw);
       }
     }
   }

@@ -725,7 +725,7 @@ button,
       height: calc(100vh - 82px);
       background-color: #2c39f2;
       position: absolute;
-      left: 100vw;
+      right: 100vw;
       top: 82px;
       padding: 50px;
       color: #ffffff; }
@@ -735,8 +735,8 @@ button,
         fill: currentColor; } }
   @media (max-width: 919px) {
     .screen--active .intro__picture.intro__picture--tablet-active {
-      -webkit-transform: translateX(-100vw);
-              transform: translateX(-100vw); } }
+      -webkit-transform: translateX(100vw);
+              transform: translateX(100vw); } }
 
 .intro__text {
   font-size: 30px;
